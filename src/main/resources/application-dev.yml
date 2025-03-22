@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# JWT Secret Key
+jwt:
+  secret: your_super_secret_key_for_jwt_your_super_secret_key_for_jwt
