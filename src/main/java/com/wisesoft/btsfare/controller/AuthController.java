@@ -17,6 +17,7 @@ import com.wisesoft.btsfare.service.AuthService;
 import com.wisesoft.btsfare.service.CustomUserDetailsService;
 import com.wisesoft.btsfare.service.UserService;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -79,8 +80,19 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest request) {
-        return ResponseEntity.ok(authService.refreshToken(request.getRefreshToken()));
+    public ResponseEntity<AuthResponse> refresh(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken) {
+        if (refreshToken == null) {
+            return ResponseEntity.status(401).build(); // ไม่มี cookie
+        }
+
+        try {
+            return ResponseEntity.ok(authService.refreshToken(refreshToken));
+        } catch (ExpiredJwtException e) {
+            return ResponseEntity.status(401).body(new AuthResponse(null, "Refresh token expired"));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(new AuthResponse(null, "Invalid token"));
+        }
     }
 
     @PostMapping("/register")

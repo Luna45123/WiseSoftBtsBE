@@ -32,7 +32,7 @@ public class JwtUtil {
 
     public String generateRefreshToken(UserDetails userDetails) {
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(60 * 60 * 24 * 7); // 7 วัน
+        Instant expiry = now.plusSeconds(60 * 2); // 7 วัน
     
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
