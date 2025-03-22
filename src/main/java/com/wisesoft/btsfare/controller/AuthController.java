@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import com.wisesoft.btsfare.component.JwtUtil;
 import com.wisesoft.btsfare.modal.AuthResponse;
 import com.wisesoft.btsfare.modal.LoginRequest;
-import com.wisesoft.btsfare.modal.RefreshTokenRequest;
 import com.wisesoft.btsfare.modal.RegisterRequest;
 import com.wisesoft.btsfare.service.AuthService;
 import com.wisesoft.btsfare.service.CustomUserDetailsService;
@@ -24,22 +23,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/auth")
 public class AuthController {
-
-    private final AuthenticationManager authenticationManager;
-
-    private final CustomUserDetailsService userDetailsService;
-
-    private final JwtUtil jwtUtil;
-
     private final UserService userService;
 
     private final AuthService authService;
 
     public AuthController(AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService,
             JwtUtil jwtUtil, UserService userService, AuthService authService) {
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
         this.userService = userService;
         this.authService = authService;
     }
