@@ -32,7 +32,7 @@ public class JwtUtil {
 
     public String generateRefreshToken(UserDetails userDetails) {
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(60 * 60 * 24 * 7); // 7 วัน
+        Instant expiry = now.plusSeconds(60 * 5); // 7 วัน
     
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
@@ -44,7 +44,7 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(60 * 60); // 1 ชั่วโมง
+        Instant expiry = now.plusSeconds(60); // 1 ชั่วโมง
 
         return Jwts.builder()
                 .setClaims(claims)

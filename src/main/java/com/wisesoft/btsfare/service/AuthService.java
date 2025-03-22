@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wisesoft.btsfare.component.JwtUtil;
 import com.wisesoft.btsfare.modal.AuthResponse;
 import com.wisesoft.btsfare.modal.LoginRequest;
-import com.wisesoft.btsfare.repository.UserRepository;
+
 
 @Service
 public class AuthService {
@@ -17,14 +17,12 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
 
     public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtil,
-                       UserDetailsService userDetailsService, UserRepository userRepository) {
+                       UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
     }
 
     public AuthResponse login(LoginRequest request) {

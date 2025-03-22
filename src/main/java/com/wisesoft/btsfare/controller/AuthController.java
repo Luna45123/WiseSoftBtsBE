@@ -48,7 +48,6 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         AuthResponse auth = authService.login(request);
 
-        // ✅ ใส่ refreshToken ใน HttpOnly Cookie
         ResponseCookie cookie = ResponseCookie.from("refreshToken", auth.getRefreshToken())
                 .httpOnly(true)
                 .secure(true) // ✅ ถ้าใช้ HTTPS
@@ -59,7 +58,6 @@ public class AuthController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        // ✅ ส่งแค่ accessToken กลับไป
         return ResponseEntity.ok(new AuthResponse(auth.getToken(), null));
     }
 
