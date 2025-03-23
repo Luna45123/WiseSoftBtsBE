@@ -23,17 +23,14 @@ public class FareService {
 
     private final FareRepository fareRepository;
 
-    private final DiscountRepository discountRepository;
 
-    private final CustomerTypeRepository customerTypeRepository;
+ 
 
-    public FareService(BtsFareMapper btsFareMapper, FareRepository fareRepository,
-            DiscountRepository discountRepository,CustomerTypeRepository customerTypeRepository) {
+    public FareService(BtsFareMapper btsFareMapper, FareRepository fareRepository) {
         this.btsFareMapper = btsFareMapper;
         this.fareRepository = fareRepository;
-        this.discountRepository = discountRepository;
-        this.customerTypeRepository =customerTypeRepository;
     }
+
 
     public List<BtsFareDTO> getAllBtsFare() {
         List<BtsFare> btsFares = fareRepository.findAllOrderByNumberStation().get();
@@ -42,50 +39,37 @@ public class FareService {
         return dtos;
     }
 
-    public List<DiscountDTO> getAllDiscounts() {
-        return discountRepository.findAll()
-                .stream()
-                .map(discount -> new DiscountDTO(
-                        discount.getId(),
-                        discount.getType().getTypeId(),
-                        discount.getDiscount(),
-                        discount.getType().getCustomerType())
-                ).collect(Collectors.toList());
-               
 
+    @Transactional
+    public String updateFare(List<BtsFareDTO> fares) {
+        List<Long> delete = new ArrayList<>();
+        fares.stream().map(fareDto -> {
+            Optional<BtsFare> existingFareOpt = fareRepository.findById(fareDto.getId());
+
+            BtsFare fare;
+
+            if (existingFareOpt.isPresent()) {
+                fare = existingFareOpt.get();
+            } else {
+                fare = new BtsFare();
+            }
+
+            if (fareDto.getId() != 0 && fareDto.isDelete()) {
+                delete.add(fare.getId());
+            }
+            fare.setStationNumber(fareDto.getStationNumber());
+            fare.setFare(fareDto.getFare());
+            return fareRepository.save(fare);
+        }).collect(Collectors.toList());
+
+        if (!delete.isEmpty()) {
+            deleteBtsFare(delete);
+        }
+        return "";
     }
 
     @Transactional
-    public String updateDiscount(List<DiscountDTO> discountDTOList) {
-        discountDTOList.stream().map(discountDto -> {
-                        Optional<Discount> existingDiscountOpt = discountRepository.findById(discountDto.getId());
-
-            Discount discount;
-
-            if (existingDiscountOpt.isPresent()) {
-                discount = existingDiscountOpt.get();
-            }else{
-                discount = new Discount();
-            }
-
-            Optional<CustomerType> customerTypeOpt = customerTypeRepository.findByTypeId(discountDto.getTypeId());
-            if (customerTypeOpt.isEmpty()) {
-                CustomerType newCustomerType = new CustomerType();
-                newCustomerType.setTypeId(discountDto.getTypeId());
-                newCustomerType.setCustomerType(discountDto.getCutomerTypeName());
-                customerTypeRepository.save(newCustomerType);
-                discount.setType(newCustomerType);
-            } else {
-                discount.setType(customerTypeOpt.get());
-            }
-            if (discountDto.getDiscount() > 100) {
-                discount.setDiscount(100);
-            }else{
-                discount.setDiscount(discountDto.getDiscount());
-            }
-            return discountRepository.save(discount);
-        }).collect(Collectors.toList());
-
-        return "";
+    public void deleteBtsFare(List<Long> id) {
+        fareRepository.deleteAllById(id);
     }
 }

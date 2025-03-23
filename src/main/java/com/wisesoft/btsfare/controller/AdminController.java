@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wisesoft.btsfare.dto.BtsFareDTO;
 import com.wisesoft.btsfare.dto.DiscountDTO;
 import com.wisesoft.btsfare.dto.ExtensionFareDTO;
+import com.wisesoft.btsfare.service.DiscountService;
 import com.wisesoft.btsfare.service.ExtensionFareService;
 import com.wisesoft.btsfare.service.FareService;
-import com.wisesoft.btsfare.service.UpdateFareService;
+
 
 @RestController
 @RequestMapping("/api/admin")
@@ -21,24 +22,26 @@ public class AdminController {
 
     private final FareService fareService;
 
-    private final UpdateFareService updateFareService;
+    private final DiscountService discountService;
+
+
 
 
     private final ExtensionFareService extensionFareService;
 
-    
 
-    public AdminController(FareService fareService, UpdateFareService updateFareService,
+
+    public AdminController(FareService fareService, DiscountService discountService,
             ExtensionFareService extensionFareService) {
         this.fareService = fareService;
-        this.updateFareService = updateFareService;
+        this.discountService = discountService;
         this.extensionFareService = extensionFareService;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update")
     public ResponseEntity<String> updateFare(@RequestBody List<BtsFareDTO> fare) {
-        updateFareService.updateFare(fare);
+        fareService.updateFare(fare);
 
         return ResponseEntity.ok("");
     }
@@ -52,7 +55,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAllDiscount")
     public List<DiscountDTO> getDiscounts() {
-        return fareService.getAllDiscounts();
+        return discountService.getAllDiscounts();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -69,6 +72,6 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update-discount")
     public String updateDiscount(@RequestBody List<DiscountDTO> discountDTOs) {
-        return fareService.updateDiscount(discountDTOs);
+        return discountService.updateDiscount(discountDTOs);
     }
 }
