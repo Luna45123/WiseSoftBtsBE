@@ -33,8 +33,8 @@ public class FareCalculatorController {
     }
 
     @GetMapping("/by-line")
-    public List<StationDTO> getStationsByLineName(@RequestParam String lineName) {
-        return stationService.getStationByLine(lineName);
+    public ResponseEntity<List<StationDTO>> getStationsByLineName(@RequestParam String lineName) {
+        return ResponseEntity.ok(stationService.getStationByLine(lineName));
     }
 
 

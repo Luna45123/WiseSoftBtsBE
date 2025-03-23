@@ -44,7 +44,7 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(60*60); // 1 ชั่วโมง
+        Instant expiry = now.plusSeconds(60); // 1 ชั่วโมง
 
         return Jwts.builder()
                 .setClaims(claims)
