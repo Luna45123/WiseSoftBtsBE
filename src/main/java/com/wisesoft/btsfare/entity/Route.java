@@ -1,7 +1,4 @@
 package com.wisesoft.btsfare.entity;
-
-import java.time.LocalTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,8 +23,6 @@ public class Route {
     @ManyToOne
     @JoinColumn(name = "end_station_id", referencedColumnName = "stationId")
     private Station endStation;
-
-    private LocalTime travelTime;
     
     @Column(length = 45)
     private int travelTimeMinutes;
@@ -54,14 +49,6 @@ public class Route {
 
     public void setEndStation(Station endStation) {
         this.endStation = endStation;
-    }
-
-    public LocalTime getTravelTime() {
-        return travelTime;
-    }
-
-    public void setTravelTime(LocalTime travelTime) {
-        this.travelTime = travelTime;
     }
 
     public int getTravelTimeMinutes() {
