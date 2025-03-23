@@ -26,14 +26,6 @@ public class Station {
     private Line line;
 
     private String stationNameThai;
-    
-    // @JsonManagedReference
-    // @OneToOne(mappedBy = "station", cascade = CascadeType.ALL)
-    // private TimeMap timeMap;
-
-    // @OneToMany(mappedBy = "station", cascade = CascadeType.ALL)
-    // @JsonManagedReference
-    // private List<ExtensionTime> extraTrainSchedules = new ArrayList<>();
 
 
     public String getStationId() {
@@ -84,18 +76,7 @@ public class Station {
         this.line = line;
     }
 
-    // public TimeMap getTimeMap() {
-    //     return timeMap;
-    // }
-
-    // public void setTimeMap(TimeMap timeMap) {
-    //     this.timeMap = timeMap;
-    // }
-
-    public Station orElse(Object object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'orElse'");
-    }
+ 
 
     public String getStationNameThai() {
         return stationNameThai;
@@ -104,16 +85,6 @@ public class Station {
     public void setStationNameThai(String stationNameThai) {
         this.stationNameThai = stationNameThai;
     }
-
-    
-
-    // public List<ExtensionTime> getExtraTrainSchedules() {
-    //     return extraTrainSchedules;
-    // }
-
-    // public void setExtraTrainSchedules(List<ExtensionTime> extraTrainSchedules) {
-    //     this.extraTrainSchedules = extraTrainSchedules;
-    // }
     
     
 }
