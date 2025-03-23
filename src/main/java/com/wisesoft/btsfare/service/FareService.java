@@ -6,13 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.wisesoft.btsfare.dto.BtsFareDTO;
-import com.wisesoft.btsfare.dto.DiscountDTO;
 import com.wisesoft.btsfare.entity.BtsFare;
-import com.wisesoft.btsfare.entity.CustomerType;
-import com.wisesoft.btsfare.entity.Discount;
 import com.wisesoft.btsfare.mapper.BtsFareMapper;
-import com.wisesoft.btsfare.repository.CustomerTypeRepository;
-import com.wisesoft.btsfare.repository.DiscountRepository;
 import com.wisesoft.btsfare.repository.FareRepository;
 
 import jakarta.transaction.Transactional;
