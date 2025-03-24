@@ -45,6 +45,6 @@ public class UserService {
         user.setRoles(Collections.singleton(userRole));
         userRepository.save(user);
 
-        return "User registered successfully!";
+        return "";
     }
 }
