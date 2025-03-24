@@ -62,6 +62,7 @@ public class CalculateFareService {
         ExtensionFare extFareAdult = extensionFareRepository.findByType_CustomerType("adult").orElseThrow(() -> new IllegalArgumentException("Invalid customerType: "));
         ExtensionFare extFareStudent = extensionFareRepository.findByType_CustomerType("student").orElseThrow(() -> new IllegalArgumentException("Invalid customerType: "));
         ExtensionFare extFareSenior = extensionFareRepository.findByType_CustomerType("senior").orElseThrow(() -> new IllegalArgumentException("Invalid customerType: "));
+        ExtensionFare extFareSingle= extensionFareRepository.findByType_CustomerType("single").orElseThrow(() -> new IllegalArgumentException("Invalid customerType: "));
 
         boolean passesExtension = path.stream().filter(Station::isExtension).count() > 1;
         boolean hasNonExtension = path.stream().anyMatch(station -> !station.isExtension());
@@ -71,13 +72,13 @@ public class CalculateFareService {
 
         if (!hasNonExtension) {
             // กรณีที่ทุกสถานีเป็น extension
-            priceResult.setSingle(extFareAdult.getPrice());
+            priceResult.setSingle(extFareSingle.getPrice());
             priceResult.setAdult(extFareAdult.getPrice());
             priceResult.setStudent(extFareStudent.getPrice());
             priceResult.setSenior(extFareSenior.getPrice());
         } else if (passesExtension) {
             // กรณีที่มีการผ่านสถานี extension มากกว่า 1 ครั้ง
-            priceResult.setSingle(calculatePriceWithExtension(fare.getFare(), discountSingle, extFareAdult.getPrice()));
+            priceResult.setSingle(calculatePriceWithExtension(fare.getFare(), discountSingle, extFareSingle.getPrice()));
             priceResult.setAdult(calculatePriceWithExtension(fare.getFare(), discountAdult, extFareAdult.getPrice()));
             priceResult.setStudent(calculatePriceWithExtension(fare.getFare(), discountStudent, extFareStudent.getPrice()));
             priceResult.setSenior(calculatePriceWithExtension(fare.getFare(), discountSenior, extFareSenior.getPrice()));
