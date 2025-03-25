@@ -27,7 +27,7 @@ public class StationService {
 
 
     public List<StationDTO> getStationByLine(String lineName) {
-        List<Station> stations = stationRepository.findByLineName(lineName).get();
+        List<Station> stations = stationRepository.findByLineName(lineName).orElseThrow(() -> new IllegalArgumentException("Invalid station name"));
         List<StationDTO> dtos = new ArrayList<StationDTO>();
 
         stationMapper.updateStationFromEntity(stations, dtos);
