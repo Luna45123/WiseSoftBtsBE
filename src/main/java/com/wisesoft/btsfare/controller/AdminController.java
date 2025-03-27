@@ -28,42 +28,36 @@ public class AdminController {
         this.extensionFareService = extensionFareService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update")
     public ResponseEntity<String> updateFare(@RequestBody List<BtsFareDTO> fare) {
         fareService.updateFare(fare);
         return ResponseEntity.ok("");
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAllFare")
     public ResponseEntity<List<BtsFareDTO>> getAllFare() {
         List<BtsFareDTO> fares = fareService.getAllBtsFare();
         return ResponseEntity.ok(fares);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAllDiscount")
     public ResponseEntity<List<DiscountDTO>> getDiscounts() {
         List<DiscountDTO> discounts = discountService.getAllDiscounts();
         return ResponseEntity.ok(discounts);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/extension-fare")
     public ResponseEntity<List<ExtensionFareDTO>> getExtensionFares() {
         List<ExtensionFareDTO> fares = extensionFareService.getAllExtensionFares();
         return ResponseEntity.ok(fares);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/extension-fare-update")
     public ResponseEntity<String> updateExtensionFare(@RequestBody List<ExtensionFareDTO> extensionFareDTO) {
         String result = extensionFareService.updateExtensionFare(extensionFareDTO);
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update-discount")
     public ResponseEntity<String> updateDiscount(@RequestBody List<DiscountDTO> discountDTOs) {
         String result = discountService.updateDiscount(discountDTOs);
