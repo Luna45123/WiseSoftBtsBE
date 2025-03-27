@@ -44,7 +44,6 @@ public class CalculateFareService {
         StationDTO end = stationService.getStationDetail(endName);
         List<Station> path = pathResult.getPath();
     
-        // 👇 Load Discounts และ Extension Fare ทั้งหมดไว้ใน Map
         Map<String, Integer> discountMap = discountRepository.findAll().stream()
                 .collect(Collectors.toMap(d -> d.getType().getCustomerType(), Discount::getDiscount));
     
