@@ -66,7 +66,7 @@ public class FindPathService {
                 Station neighbor = route.getEndStation();
                 if (!pathStations.containsKey(neighbor)) {
                     queue.add(neighbor);
-                    distance.put(neighbor, distance.get(current) + 1);
+                    distance.put(neighbor, distance.get(current) + route.getDistance());
                     time.put(neighbor, time.get(current) + route.getTravelTimeMinutes());
 
                     List<Station> updatedPath = new ArrayList<>(pathStations.get(current));

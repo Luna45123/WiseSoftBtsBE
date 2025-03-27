@@ -42,18 +42,17 @@ public class DiscountService {
     }
 
     @Transactional
-    public String updateDiscount(List<DiscountDTO> discountDTOList) {
-        discountDTOList.stream().map(discountDto -> {
-                        Optional<Discount> existingDiscountOpt = discountRepository.findById(discountDto.getId());
-
+    public void updateDiscount(List<DiscountDTO> discountDTOList) {
+        for (DiscountDTO discountDto : discountDTOList) {
+            Optional<Discount> existingDiscountOpt = discountRepository.findById(discountDto.getId());
+    
             Discount discount;
-
             if (existingDiscountOpt.isPresent()) {
                 discount = existingDiscountOpt.get();
-            }else{
+            } else {
                 discount = new Discount();
             }
-
+    
             Optional<CustomerType> customerTypeOpt = customerTypeRepository.findByTypeId(discountDto.getTypeId());
             if (customerTypeOpt.isEmpty()) {
                 CustomerType newCustomerType = new CustomerType();
@@ -64,14 +63,15 @@ public class DiscountService {
             } else {
                 discount.setType(customerTypeOpt.get());
             }
+    
             if (discountDto.getDiscount() > 100) {
                 discount.setDiscount(100);
-            }else{
+            } else {
                 discount.setDiscount(discountDto.getDiscount());
             }
-            return discountRepository.save(discount);
-        }).collect(Collectors.toList());
-
-        return "";
+    
+            discountRepository.save(discount);
+        }
     }
+    
 }

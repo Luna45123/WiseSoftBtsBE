@@ -3,6 +3,7 @@ package com.wisesoft.btsfare.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,8 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<String> updateFare(@RequestBody List<BtsFareDTO> fare) {
+    public void updateFare(@RequestBody List<BtsFareDTO> fare) {
         fareService.updateFare(fare);
-        return ResponseEntity.ok("");
     }
 
     @GetMapping("/getAllFare")
@@ -53,14 +53,12 @@ public class AdminController {
     }
 
     @PostMapping("/extension-fare-update")
-    public ResponseEntity<String> updateExtensionFare(@RequestBody List<ExtensionFareDTO> extensionFareDTO) {
-        String result = extensionFareService.updateExtensionFare(extensionFareDTO);
-        return ResponseEntity.ok(result);
+    public void updateExtensionFare(@RequestBody List<ExtensionFareDTO> extensionFareDTO) {
+        extensionFareService.updateExtensionFare(extensionFareDTO);
     }
 
     @PostMapping("/update-discount")
-    public ResponseEntity<String> updateDiscount(@RequestBody List<DiscountDTO> discountDTOs) {
-        String result = discountService.updateDiscount(discountDTOs);
-        return ResponseEntity.ok(result);
+    public void updateDiscount(@RequestBody List<DiscountDTO> discountDTOs) {
+        discountService.updateDiscount(discountDTOs);
     }
 }

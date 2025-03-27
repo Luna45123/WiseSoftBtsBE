@@ -41,36 +41,34 @@ public class ExtensionFareService {
     }
 
     @Transactional
-    public String updateExtensionFare(List<ExtensionFareDTO> fareDTOList) {
-        fareDTOList.stream().map(fareDto -> {
-            Optional<ExtensionFare> existingFareOpt = extensionFareRepository.findById(fareDto.getId());
+public void updateExtensionFare(List<ExtensionFareDTO> fareDTOList) {
+    for (ExtensionFareDTO fareDto : fareDTOList) {
+        Optional<ExtensionFare> existingFareOpt = extensionFareRepository.findById(fareDto.getId());
 
-            ExtensionFare fare;
-            if (existingFareOpt.isPresent()) {
-                fare = existingFareOpt.get();
-            } else {
-                fare = new ExtensionFare();
-            }
+        ExtensionFare fare;
+        if (existingFareOpt.isPresent()) {
+            fare = existingFareOpt.get();
+        } else {
+            fare = new ExtensionFare();
+        }
 
-         
-            Optional<CustomerType> customerTypeOpt = customerTypeRepository.findByTypeId(fareDto.getTypeId());
+        Optional<CustomerType> customerTypeOpt = customerTypeRepository.findByTypeId(fareDto.getTypeId());
 
-            if (customerTypeOpt.isEmpty()) {
-                CustomerType newCustomerType = new CustomerType();
-                newCustomerType.setTypeId(fareDto.getTypeId());
-                newCustomerType.setCustomerType(fareDto.getCustomerTypeName());
-                customerTypeRepository.save(newCustomerType);
-                fare.setType(newCustomerType);
-            } else {
-                fare.setType(customerTypeOpt.get());
-            }
+        if (customerTypeOpt.isEmpty()) {
+            CustomerType newCustomerType = new CustomerType();
+            newCustomerType.setTypeId(fareDto.getTypeId());
+            newCustomerType.setCustomerType(fareDto.getCustomerTypeName());
+            customerTypeRepository.save(newCustomerType);
+            fare.setType(newCustomerType);
+        } else {
+            fare.setType(customerTypeOpt.get());
+        }
 
-            fare.setPrice(fareDto.getPrice());
+        fare.setPrice(fareDto.getPrice());
 
-            return extensionFareRepository.save(fare);
-        }).collect(Collectors.toList());
-
-        return "";
+        extensionFareRepository.save(fare);
     }
+}
+
 
 }

@@ -27,6 +27,8 @@ public class Route {
     @Column(length = 45)
     private int travelTimeMinutes;
 
+    private int distance;
+
     public Long getId() {
         return id;
     }
@@ -57,6 +59,14 @@ public class Route {
 
     public void setTravelTimeMinutes(int travelTimeMinutes) {
         this.travelTimeMinutes = travelTimeMinutes;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
 }

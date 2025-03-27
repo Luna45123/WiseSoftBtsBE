@@ -18,14 +18,10 @@ public class FareService {
 
     private final FareRepository fareRepository;
 
-
- 
-
     public FareService(BtsFareMapper btsFareMapper, FareRepository fareRepository) {
         this.btsFareMapper = btsFareMapper;
         this.fareRepository = fareRepository;
     }
-
 
     public List<BtsFareDTO> getAllBtsFare() {
         List<BtsFare> btsFares = fareRepository.findAllOrderByNumberStation().get();
@@ -34,15 +30,14 @@ public class FareService {
         return dtos;
     }
 
-
     @Transactional
-    public String updateFare(List<BtsFareDTO> fares) {
+    public void updateFare(List<BtsFareDTO> fares) {
         List<Long> delete = new ArrayList<>();
-        fares.stream().map(fareDto -> {
+
+        for (BtsFareDTO fareDto : fares) {
             Optional<BtsFare> existingFareOpt = fareRepository.findById(fareDto.getId());
 
             BtsFare fare;
-
             if (existingFareOpt.isPresent()) {
                 fare = existingFareOpt.get();
             } else {
@@ -52,15 +47,16 @@ public class FareService {
             if (fareDto.getId() != 0 && fareDto.isDelete()) {
                 delete.add(fare.getId());
             }
+
             fare.setStationNumber(fareDto.getStationNumber());
             fare.setFare(fareDto.getFare());
-            return fareRepository.save(fare);
-        }).collect(Collectors.toList());
+
+            fareRepository.save(fare);
+        }
 
         if (!delete.isEmpty()) {
             deleteBtsFare(delete);
         }
-        return "";
     }
 
     @Transactional
